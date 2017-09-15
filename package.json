@@ -1,0 +1,17 @@
+{
+  "name": "electron_app",
+  "version": "1.0.0",
+  "description": "An electron application",
+  "main": "index.js",
+  "scripts": {
+    "start" : "electron ."
+  },
+  "keywords": [
+    "electron"
+  ],
+  "author": "Himanshu kalal",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "1.7.6"
+  }
+}
