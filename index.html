@@ -2,11 +2,11 @@
 <html ng-app="MainWindow">
 <head>
 	<title>electron</title>
-	<script> 
+	<!-- <script> 
 window.nodeRequire = require; 
 delete window.require;
 delete window.exports; delete window.module; 
-</script> 
+</script>  -->
 <link rel="stylesheet" type="text/css" href="app.css">
 <script type="text/javascript" src="./assets/js/angular-1.6.4/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -123,7 +123,7 @@ delete window.exports; delete window.module;
                               <div class="form-group">
                                        <div class="col-sm-12">
                                            <!-- <h3 class="text-center">Register Criteria</h3> -->
-                                           <table class="invoice table table-bordered table-custom-scroll table-no-header-scroll" style="display: block; overflow-x: auto; white-space: nowrap; width: 100%">
+                                           <table class="invoice table table-bordered table-custom-scroll table-no-header-scroll" style="display: block; overflow-x: auto; white-space: nowrap; width: 100%; border:0; padding: 20px; padding-left: 0;">
                                                
                                             <thead>
                                               <div>
@@ -142,7 +142,7 @@ delete window.exports; delete window.module;
                                               <tbody>
                                                    <tr ng-repeat="cDetail in collumnDetail">
                                                        <td>
-                                                           <input type="text" name="" class="form-control" ng-model="cDetail.count">
+                                                           <input type="text" name="" class="form-control" ng-model="cDetail.count" ng-readonly="true">
                                                        </td>
                                                        <td>
                                                             <input type="text" ng-model="cDetail.item" name="" class="form-control">
@@ -151,38 +151,55 @@ delete window.exports; delete window.module;
                                                            <input type="text" ng-model="cDetail.hsn" name="" class="form-control">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.qty" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.qty" name="" class="form-control" ng-change="updateCellwith(cDetail)">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.unit" name="" class="form-control" ng-model="">
+                                                           <input type="text" ng-model="cDetail.unit" name="" class="form-control" ng-readonly="true">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.rate" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.rate" name="" class="form-control" ng-change="updateCellwith(cDetail)">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.taxable" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.discount" name="" class="form-control" ng-change="updateCellwith(cDetail)">
                                                        </td>
                                                        <td>
-                                                           <input type="text"  ng-model="cDetail.igst.percent" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.taxable" name="" class="form-control" ng-readonly="true">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.igst.amt" name="" class="form-control">
+                                                           <input type="text"  ng-model="cDetail.igst.percent" name="" class="form-control" ng-change="updateCellwith(cDetail)">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.cess.percent" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.igst.amt" name="" class="form-control" ng-readonly="true">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.cess.amt" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.cess.percent" name="" class="form-control" ng-change="updateCellwith(cDetail)">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="cDetail.total" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.cess.amt" name="" class="form-control" ng-readonly="true">
                                                        </td>
                                                        <td>
-                                                           <input type="text" ng-model="taxable" name="" class="form-control">
+                                                           <input type="text" ng-model="cDetail.total" name="" class="form-control" ng-readonly="true">
+                                                            <button class="btn btn-sm btn-danger btn-xs btn-push remove" type="button" ng-click="delete($index)">Delete</button>
                                                        </td>
-                                                       <td>
-                                                           <button class="btn btn-sm btn-danger btn-xs btn-push remove" type="button">Delete</button>
-                                                       </td>
+                                                       <!-- <td>
+                                                           <button class="btn btn-sm btn-danger btn-xs btn-push remove" type="button" ng-click="delete($index)">Delete</button>
+                                                       </td> -->
+                                                   </tr>
+                                                   <tr>
+													<td rowspan ="1" colspan="6"> Individual Total</td>
+                                                   	<td rowspan ="1" colspan="1">{{discounttotal}}</td>
+                                                   	<td rowspan ="1" colspan="1">{{taxabletotal}}</td>
+                                                   	<td rowspan ="1" colspan="2" >{{gstTotal}}</td>
+                                                   	<td rowspan ="1" colspan="2" >{{cesstotal}}</td>
+                                                   	<td rowspan ="1" colspan="1" >{{totalAmount}}</td>
+                                                   </tr>
+                                                   </tr>
+                                                   <tr ng-show ="checked">
+													<td rowspan ="1" colspan="8"> Reverse charges</td>
+                                                 
+                                                   	<td rowspan ="1" colspan="2" >{{gstTotal}}</td>
+                                                   	<td rowspan ="1" colspan="2" >{{cesstotal}}</td>
+                                                   	<td rowspan ="1" colspan="1" >{{-(gstTotal+cesstotal)}}</td>
                                                    </tr>
                                                </tbody>
                                            </table>
@@ -235,12 +252,12 @@ delete window.exports; delete window.module;
 			</div>
 		<div> -->
 		<section class="fix-margin">
-				<input type="checkbox" checked class="fix-margin"> reverse charges
+				<input type="checkbox" ng-model = "checked" class="fix-margin"> reverse charges
 				<br>
 
 		 	 	<div style="float: right;" class="fix-margin">
 		  			<input type="text" name="adjustment" placeholder="adjustments" ng-model="addKeyword"><span>&#63</span>
-					<input type="text" name="adjustment-amount" ng-model="adamount" >
+					<input type="text" name="adjustment-amount" ng-model="adamount" ng-change="updateCellwith()" >
 		 		</div>
  				<div style="float: right; clear: right; background-color: rgb(238,238,238);" class="fix-margin">
  					<div class="total">
@@ -250,7 +267,7 @@ delete window.exports; delete window.module;
  				</div>
  		</section>
 
- 		<button class="" ng-click="generateInvoice()">add item</button> <br>	
+ 		<button class="button" ng-click="generateInvoice()">add item</button> <br>	
 
 
 	</div>

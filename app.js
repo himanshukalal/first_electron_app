@@ -20,6 +20,10 @@ var app = angular .module('MainWindow', []);
              $scope.adamount =0;
 
              $scope.totalAmount =0;
+             $scope.gstTotal =0;
+            $scope.cesstotal =0;
+             $scope.discounttotal =0;
+             $scope.taxabletotal =0;
 
              /***********************************/
                         $scope.collumnDetail =[];
@@ -27,14 +31,15 @@ var app = angular .module('MainWindow', []);
                 
                     var getjson = function(fix){
 
-                      return {  "count" :fix,
+                      return {  
+                        "count" :fix,
                          "item" : "",
                         "hsn" : "",
-                        "qty" : "",
-                        "unit" :"",
+                        "qty" : "1",
+                        "unit" :"Kg",
                         "rate" : "",
                         "discount" : "",
-                        "taxable" : "xx",
+                        "taxable" : "",
                         "igst":{'percent' :'18','amt':''},
                        "cess" :{'percent' :'','amt':''},
                         "total" : "",
@@ -63,19 +68,78 @@ var app = angular .module('MainWindow', []);
                       // var obj  = new getjson();
                       // obj.count = 1;
 
-                        $scope.collumnDetail.push(new getjson(1));
+                        $scope.collumnDetail.push(new getjson($scope.collumnDetail.length+1));
                         
 
 
-            $scope.generateInvoice = function(){
+         $scope.generateInvoice = function(){
+             console.log($scope.collumnDetail[0]); 
+            };
+         $scope.addobj = function(){
+             $scope.collumnDetail.push(new getjson($scope.collumnDetail.length+1));
+             };
+            $scope.delete = function (index) {
 
-                        console.log($scope.collumnDetail[0]); 
-            }
- $scope.addobj = function(){
-          $scope.collumnDetail.push(new getjson());
-                        console.log($scope.collumnDetail[0]); 
-            }
+                console.log("index");
+               $scope.collumnDetail.splice(index, 1);
+               $scope.updatesubAmount();
+            }   
+        $scope.updateCellwith = function(arr){
+
+            if(arr!=null)
+            {
+             console.log("heeee");
+            console.log(arr);
+
+            arr.taxable = (arr.qty*arr.rate)-arr.discount;
+             console.log(arr.taxable);
+             arr.igst.amt = arr.taxable*arr.igst.percent/100;
+              arr.cess.amt = arr.taxable*arr.cess.percent/100;
+             arr.total = Number(arr.taxable)+Number(arr.igst.amt)+Number(arr.cess.amt); 
+           }
+
+
+           $scope.updatesubAmount();
+             // console.log(arr.taxable);
+
+             }; 
              /***********/
+
+             $scope.updatesubAmount = function()
+             {
+
+            var subTotal = 0;
+            var gstTotal = 0;
+            var cessTotal = 0;
+             var discounttotal =0;
+             var taxabletotal =0;
+            console.log($scope.collumnDetail.length);
+            for(var count = 0; count < $scope.collumnDetail.length; count++){
+                    
+                    console.log(subTotal);
+
+
+              subTotal += ($scope.collumnDetail[count].total);
+               gstTotal += ($scope.collumnDetail[count].igst.amt);
+               cessTotal += ($scope.collumnDetail[count].cess.amt);
+                discounttotal += ($scope.collumnDetail[count].discount);
+                 taxabletotal += ($scope.collumnDetail[count].taxable);
+
+               console.log($scope.totalAmount);
+
+            $scope.gstTotal =gstTotal;
+            $scope.cesstotal =cessTotal;
+            $scope.discounttotal =discounttotal;
+             $scope.taxabletotal =taxabletotal;
+
+            }
+
+             $scope.totalAmount =subTotal;
+
+            if(!isNaN($scope.adamount))
+             $scope.totalAmount =subTotal+Number($scope.adamount);
+
+             }
 
 	    $scope.onSelectChange = function(vaue){
                // $scope.counter++; 
@@ -172,66 +236,66 @@ var app = angular .module('MainWindow', []);
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"item",
+                                    "firstRow":"Item",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"hsn",
+                                    "firstRow":"HSN",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"qty",
+                                    "firstRow":"QTY",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"unit",
+                                    "firstRow":"Unit",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"rate/item",
+                                    "firstRow":"Rate/Item",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"discount",
+                                    "firstRow":"Discount",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"taxable value",
+                                    "firstRow":"Taxable Value",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
                                   {
-                                    "firstRow":"igst",
+                                    "firstRow":"IGST",
                                     "rowspan":"1",
                                     "colspan":"2",
                                   },
                                   {
-                                    "firstRow":"cess",
+                                    "firstRow":"CESS",
                                     "rowspan":"1",
                                     "colspan":"2",
                                   },
                                   {
-                                    "firstRow":"total",
+                                    "firstRow":"Total",
                                     "rowspan":"2",
                                     "colspan":"1",
                                   },
-                                  {
-                                    "firstRow":"",
-                                    "rowspan":"2",
-                                    "colspan":"1",
-                                  },
+                                  // {
+                                  //   "firstRow":"",
+                                  //   "rowspan":"2",
+                                  //   "colspan":"1",
+                                  // },
                                 ];
 
 
 
-                                var $table = $('table.invoice'),
-                                        counter = 1;
+                                // var $table = $('table.invoice'),
+                                //         counter = 1;
                                     
                                 //     $('button.add').click(function(event){
 
@@ -264,9 +328,9 @@ var app = angular .module('MainWindow', []);
                                 //         $table.append(newRow);
                                 //     });
                                     
-                                    $table.on('click', '.remove', function() {
-                                        $(this).closest('tr').remove();
-                                    });
+                                    // $table.on('click', '.remove', function() {
+                                    //     $(this).closest('tr').remove();
+                                    // });
 
 
 
