@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html ng-app="MainWindow">
+<head>
+	<title>electron</title>
+<link rel="stylesheet" type="text/css" href="app.css">
+<script type="text/javascript" src="./assets/js/angular-1.6.4/angular.min.js"></script>
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script> -->
+  <script src="app.js"></script>
+</head>
+<body ng-controller="MainCtrl">
+<h3>ADD INVOICE</h3>
+<div>
+	<section>
+		<div class="section1 col_1">
+			<span class="span_margin">invoice Type</span>
+			<!-- <select  class="invoice_type boxhight" ng-model='selectedtype' required ng-options='option.value as option.name for option in arrInvoice' ng-change='onSelectChange()' ng-selected='option.selected==true'></select> -->
+
+
+			<select class="invoice_type boxhight" ng-model ="selectedtype" ng-change="onSelectChange()">
+			<option ng-value='{{invoice}}' ng-repeat="data in arrInvoice" ng-selected="data.selected==true">{{data.name}}</option>
+			<!-- } -->
+  				
+			</select>
+		</div>
+		<div class="section1 col_2">
+			<span class="span_margin">invoice#</span>
+			<input type="text" name="fileNumber" value="INV-62" disabled style="border-radius: 5px; border:1px solid black; background-color: rgb(238,238,238);" class="boxhight span_margin">
+		</div>
+	</section>
+	<section style="clear:left;">
+		<div class ="section1 col_3 fix-margin">
+			<span class="span_margin">invoice Date</span>
+			<input type="date" name="date" value="" class="boxhight span_margin">
+		</div>
+		<div class ="section1 col_4 fix-margin">
+			<span class="span_margin">order#</span>
+			<input type="text" name="order" value="" class="boxhight span_margin">
+		</div>
+	</section>
+	<hr style="clear:left; margin-top: 40px">
+	<section>
+		<div>
+			<span class="span_margin">customer Name</span>
+
+<select  ng-model="blisterPackTemplateSelected" ng-change="changenet(blisterPackTemplateSelected)" 
+     data-ng-options="blisterPackTemplate as blisterPackTemplate.name for blisterPackTemplate in arrofCustomerDetail">
+
+		<!-- 	<select class="boxhight span_margin" ng-model ="newarr" ng-change="changenet(newarr)">
+			<option ng-value='{{data.name}}' ng-repeat="data in arrofCustomerDetail" ng-selected="data.selected==true">{{data.name}}</option> -->
+			<!-- } -->
+  				
+			</select>
+		</div>
+			<br>
+		<div>
+			<span class="span_margin">payment terms</span>
+
+			<select class="boxhight span_margin" ng-model ="" ng-change="">
+			<option ng-value='{{name}}' ng-repeat="name in arrpayterms" ng-selected="data.selected==true">{{name}}</option>
+
+		</div>
+		<br>
+		<div>
+			<span class="span_margin">due date</span>
+			<input type="date" name="date" value="" class="boxhight2 span_margin">
+		</div>
+	</section>
+		<hr>
+	<div>
+		<div class="section1">
+			<span class="span_margin">salesperson</span>
+			<input type="text" name="salesperson" class="boxhight2 span_margin">
+		</div>
+		<div class="section1">
+			<span class="span_margin">item rate are</span>
+			<select class="boxhight span_margin">
+ 				<option value="Text Exclusive">Text Exclusive</option>
+  				<option value="Text inlusive" selected>Text Exclusive</option>
+			</select>
+		</div>
+		<div class="section1">
+			<span class="span_margin">supply Type</span>
+			<select class="boxhight span_margin">
+ 				<option value="interstate">bill for Supply</option>
+  				<!-- <option value="tex invoice" selected>tex invoice</option> -->
+			</select>
+		</div>
+			<table style="clear:left;">
+  				<col>
+ 				 <colgroup span="2"></colgroup>
+  				<colgroup span="2"></colgroup>
+  				<tr>
+    				<td rowspan="2"></td>
+   					 <th colspan="2">Mars</th>
+   					 <th colspan="2">Venus</th>
+  				</tr>
+ 			 <tr>
+  				  <th >Produced</th>
+  				  <th >Sold</th>
+   				 <th >Produced</th>
+   				 <th >Sold</th>
+ 			 	</tr>
+  				<tr>
+	    		<td >Teddy Bears</td>
+    			 </tr>
+ 				 <tr>
+   				 	<td>Board Games</td>
+  				 </tr>
+			</table>
+		</div>
+		<!-- <div>
+			<button>Add Another Item</button> <br>
+			<input type="checkbox" name="vehicle" value="Car" checked> reverse charges<br>
+			<div style="float:right;  width: 50%; height: 80px;">
+				<div style="float: right;display: block;">
+					<input type="text" name="adjustment"><span>&#63</span>
+					<input type="text" name="adjustment-amount" >
+
+				
+					<div style=" width: 100%; background-color:green; display: block;">
+						<label>total(&#x20B9;)</label>	
+						<label style="float: right;">0</label>	
+					</div>
+				</div>
+			</div>
+				<div style=" right:0;width: 50%; background-color:green; display: block; height: 80px;">
+						<div style="width: 50%; background-color:green;  display: block; margin-right: 0px;">
+							<label>total(&#x20B9;)</label>	
+							<label style="float: right;">0</label>	
+						</div>
+				</div>
+			</div>
+		</div> -->
+		<!-- <div>
+			<button>Add Another Item</button> <br>
+			<input type="checkbox" name="vehicle" value="Car" checked> reverse charges
+			<br>
+			<div class="three">
+				<input type="text" name="adjustment"><span>&#63</span>
+				<input type="text" name="adjustment-amount" >
+
+    		 	<div class="green"></div>
+  		  		<div class="red"></div>
+  		  	 	</div>
+  		   			<div class="three">
+    		 		<div class="green">
+    		 		<label style="float:left;">total(&#x20B9;)</label>	
+					<label>0</label>	
+    		 		</div>
+  			  		 </div>
+  				</div>
+			</div>
+		<div> -->
+		<section class="fix-margin">
+		
+				<button class="button">Add Another Item</button> <br>
+				<input type="checkbox" name="vehicle" value="Car" checked class="fix-margin"> reverse charges
+				<br>
+
+		 	 	<div style="float: right;" class="fix-margin">
+		  			<input type="text" name="adjustment"><span>&#63</span>
+					<input type="text" name="adjustment-amount" >
+		 		</div>
+ 				<div style="float: right; clear: right; background-color: rgb(238,238,238);" class="fix-margin">
+ 					<div class="total">
+    		 			<label style="float:left;">total(&#x20B9;)</label>	
+						<label style="float:right;">0</label>	
+    		 		</div>
+ 				</div>
+ 		</section>
+	</div>
+</body>
+</html>
