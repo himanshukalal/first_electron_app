@@ -134,10 +134,10 @@ var app = angular .module('MainWindow', []);
 
             }
 
-             $scope.totalAmount =subTotal;
+             $scope.totalAmount =Number($scope.gstTotal)+Number($scope.cesstotal)-Number($scope.discounttotal)+Number($scope.taxabletotal);
 
             if(!isNaN($scope.adamount))
-             $scope.totalAmount =subTotal+Number($scope.adamount);
+             $scope.totalAmount =$scope.totalAmount+Number($scope.adamount);
 
              }
 
